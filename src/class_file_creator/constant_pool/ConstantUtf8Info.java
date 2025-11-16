@@ -2,7 +2,7 @@ package class_file_creator.constant_pool;
 
 import java.nio.charset.StandardCharsets;
 
-public class ConstantUtf8Info extends ConstantPoolItem implements Comparable<ConstantUtf8Info> {
+public class ConstantUtf8Info extends ConstantPoolItem {
 
     private final String string;
 
@@ -33,11 +33,5 @@ public class ConstantUtf8Info extends ConstantPoolItem implements Comparable<Con
             return c.string.equals(this.string);
 
         return false;
-    }
-
-    @Override
-    public int compareTo(ConstantUtf8Info c) {
-
-        return this.string.compareTo(c.string);
     }
 }

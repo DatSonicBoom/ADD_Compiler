@@ -12,6 +12,9 @@ public class SourceCodeFile implements SourceCode {
 
     public SourceCodeFile(File sourceCodeFile) throws IllegalArgumentException {
 
+        if (sourceCodeFile == null)
+            throw new IllegalArgumentException("sourceCodeFile cannot be null");
+
         try (BufferedReader bf = new BufferedReader(new FileReader(sourceCodeFile))) {
 
             this.sourceCode = bf.lines()

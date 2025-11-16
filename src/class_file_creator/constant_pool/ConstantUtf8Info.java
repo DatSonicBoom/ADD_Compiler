@@ -1,13 +1,15 @@
 package class_file_creator.constant_pool;
 
+import class_file_creator.JvmClassFile;
+
 import java.nio.charset.StandardCharsets;
 
 public class ConstantUtf8Info extends ConstantPoolItem {
 
     private final String string;
 
-    protected ConstantUtf8Info(ConstantPool constantPool, int slot, String string) throws IllegalArgumentException {
-        super(constantPool, slot);
+    protected ConstantUtf8Info(JvmClassFile jvmClassFile, int index, String string) throws IllegalArgumentException {
+        super(jvmClassFile, index);
 
         if (string == null)
             throw new IllegalArgumentException("string cannot be null");

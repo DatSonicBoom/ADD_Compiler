@@ -1,17 +1,19 @@
 package class_file_creator.constant_pool;
 
+import class_file_creator.JvmClassFile;
+
 public abstract class ConstantPoolItem {
 
-    protected final ConstantPool constantPool;
-    protected final int slot;
+    protected final JvmClassFile jvmClassFile;
+    protected final int index;
 
-    protected ConstantPoolItem(ConstantPool constantPool, int slot) throws IllegalArgumentException {
+    protected ConstantPoolItem(JvmClassFile jvmClassFile, int index) throws IllegalArgumentException {
 
-        if (constantPool == null)
-            throw new IllegalArgumentException("constantPool cannot be null");
+        if (jvmClassFile == null)
+            throw new IllegalArgumentException("jvmClassFile cannot be null");
 
-        this.constantPool = constantPool;
-        this.slot = slot;
+        this.jvmClassFile = jvmClassFile;
+        this.index = index;
     }
 
     public abstract byte[] byteStream();

@@ -13,4 +13,6 @@ public abstract class ConstantPoolItem {
         this.constantPool = constantPool;
         this.slot = slot;
     }
+
+    public abstract byte[] byteStream();
 }

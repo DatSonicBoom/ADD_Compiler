@@ -2,12 +2,12 @@ package class_file_creator.constant_pool;
 
 import class_file_creator.JvmClassFile;
 
-public abstract class ConstantPoolItem {
+public abstract class ConstantPoolEntry {
 
     protected final JvmClassFile jvmClassFile;
     protected final int index;
 
-    protected ConstantPoolItem(JvmClassFile jvmClassFile, int index) throws IllegalArgumentException {
+    protected ConstantPoolEntry(JvmClassFile jvmClassFile, int index) throws IllegalArgumentException {
 
         if (jvmClassFile == null)
             throw new IllegalArgumentException("jvmClassFile cannot be null");

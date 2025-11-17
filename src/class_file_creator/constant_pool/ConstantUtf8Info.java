@@ -4,7 +4,7 @@ import class_file_creator.JvmClassFile;
 
 import java.nio.charset.StandardCharsets;
 
-public class ConstantUtf8Info extends ConstantPoolItem {
+public class ConstantUtf8Info extends ConstantPoolEntry {
 
     private final String string;
 

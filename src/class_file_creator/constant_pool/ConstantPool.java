@@ -10,7 +10,7 @@ import java.util.TreeSet;
 public class ConstantPool {
 
     private final JvmClassFile jvmClassFile;
-    private int currentIndex = 1;
+    private short currentIndex = 1;
 
     private final SortedSet<ConstantPoolEntry> allConstantPoolEntries = new TreeSet<>();
 

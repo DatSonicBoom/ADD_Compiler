@@ -8,9 +8,9 @@ import java.io.IOException;
 public abstract class ConstantPoolEntry implements Comparable<ConstantPoolEntry> {
 
     protected final JvmClassFile jvmClassFile;
-    protected final int index;
+    protected final short index;
 
-    protected ConstantPoolEntry(JvmClassFile jvmClassFile, int index) throws IllegalArgumentException {
+    protected ConstantPoolEntry(JvmClassFile jvmClassFile, short index) throws IllegalArgumentException {
 
         if (jvmClassFile == null)
             throw new IllegalArgumentException("jvmClassFile cannot be null");
@@ -19,7 +19,7 @@ public abstract class ConstantPoolEntry implements Comparable<ConstantPoolEntry>
         this.index = index;
     }
 
-    public int getIndex() {
+    public short index() {
         return this.index;
     }
 

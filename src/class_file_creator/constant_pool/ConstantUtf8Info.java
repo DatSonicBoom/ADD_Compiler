@@ -9,7 +9,7 @@ public class ConstantUtf8Info extends ConstantPoolEntry {
 
     private final String string;
 
-    protected ConstantUtf8Info(JvmClassFile jvmClassFile, int index, String string) throws IllegalArgumentException {
+    protected ConstantUtf8Info(JvmClassFile jvmClassFile, short index, String string) throws IllegalArgumentException {
         super(jvmClassFile, index);
 
         if (string == null)

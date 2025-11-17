@@ -2,12 +2,20 @@ package class_file_creator;
 
 import class_file_creator.constant_pool.ConstantPool;
 
+import java.io.File;
+
 public class JvmClassFile {
 
-    private final ConstantPool constantPool;
+    private final File file;
 
-    public JvmClassFile() {
-        this.constantPool = new ConstantPool(this);
+    private final ConstantPool constantPool = new ConstantPool(this);
+
+    public JvmClassFile(File file) throws IllegalArgumentException {
+
+        if (file == null)
+            throw new IllegalArgumentException("file cannot be null");
+
+        this.file = file;
     }
 
     public ConstantPool constantPool() {

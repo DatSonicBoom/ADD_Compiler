@@ -2,7 +2,8 @@ package class_file_creator.constant_pool;
 
 import class_file_creator.JvmClassFile;
 
-import java.nio.charset.StandardCharsets;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class ConstantUtf8Info extends ConstantPoolEntry {
 
@@ -18,22 +19,9 @@ public class ConstantUtf8Info extends ConstantPoolEntry {
     }
 
     @Override
-    public byte[] byteStream() {
+    public void write(DataOutputStream dos) throws IOException {
 
-        byte[] stringBytes = this.string.getBytes(StandardCharsets.UTF_8);
-        byte[] output = new byte[stringBytes.length + 1];
-        output[0] = 0x01;
-        System.arraycopy(stringBytes, 0, output, 1, stringBytes.length);
-
-        return output;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-
-        if (o instanceof ConstantUtf8Info c)
-            return c.string.equals(this.string);
-
-        return false;
+        dos.writeByte(1); // Write tag (always 1 for Constant_Utf-8_info)
+        dos.writeUTF(this.string); // Write length and bytes
     }
 }

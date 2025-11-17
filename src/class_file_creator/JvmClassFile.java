@@ -4,9 +4,13 @@ import class_file_creator.constant_pool.ConstantPool;
 
 public class JvmClassFile {
 
-    public final ConstantPool constantPool;
+    private final ConstantPool constantPool;
 
     public JvmClassFile() {
         this.constantPool = new ConstantPool(this);
+    }
+
+    public ConstantPool constantPool() {
+        return this.constantPool;
     }
 }

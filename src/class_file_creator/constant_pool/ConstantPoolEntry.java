@@ -2,7 +2,7 @@ package class_file_creator.constant_pool;
 
 import class_file_creator.JvmClassFile;
 
-public abstract class ConstantPoolEntry {
+public abstract class ConstantPoolEntry implements Comparable<ConstantPoolEntry> {
 
     protected final JvmClassFile jvmClassFile;
     protected final int index;
@@ -14,6 +14,15 @@ public abstract class ConstantPoolEntry {
 
         this.jvmClassFile = jvmClassFile;
         this.index = index;
+    }
+
+    public int getIndex() {
+        return this.index;
+    }
+
+    @Override
+    public int compareTo(ConstantPoolEntry c) {
+        return this.index - c.index;
     }
 
     public abstract byte[] byteStream();

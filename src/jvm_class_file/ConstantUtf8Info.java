@@ -1,6 +1,4 @@
-package class_file_creator.constant_pool;
-
-import class_file_creator.JvmClassFile;
+package jvm_class_file;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -19,7 +17,7 @@ public class ConstantUtf8Info extends ConstantPoolEntry {
     }
 
     @Override
-    public void write(DataOutputStream dos) throws IOException {
+    protected void write(DataOutputStream dos) throws IOException {
 
         dos.writeByte(1); // Write tag (always 1 for Constant_Utf-8_info)
         dos.writeUTF(this.string); // Write length and bytes

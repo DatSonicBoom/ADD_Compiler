@@ -1,6 +1,4 @@
-package class_file_creator.constant_pool;
-
-import class_file_creator.JvmClassFile;
+package jvm_class_file;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -28,5 +26,5 @@ public abstract class ConstantPoolEntry implements Comparable<ConstantPoolEntry>
         return this.index - c.index;
     }
 
-    public abstract void write(DataOutputStream dos) throws IOException;
+    protected abstract void write(DataOutputStream dos) throws IOException;
 }

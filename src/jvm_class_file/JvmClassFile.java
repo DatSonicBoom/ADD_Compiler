@@ -1,12 +1,10 @@
-package class_file_creator;
-
-import class_file_creator.constant_pool.ConstantPool;
+package jvm_class_file;
 
 import java.io.File;
 
 public class JvmClassFile {
 
-    public static final String DIFFERENT_FILE_ERROR =
+    protected static final String DIFFERENT_FILE_ERROR =
             "ConstantPoolEntry dependencies must belong to the same JvmClassFile";
 
     private final File file;

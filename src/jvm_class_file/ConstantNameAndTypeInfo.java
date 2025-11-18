@@ -1,6 +1,4 @@
-package class_file_creator.constant_pool;
-
-import class_file_creator.JvmClassFile;
+package jvm_class_file;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -29,7 +27,7 @@ public class ConstantNameAndTypeInfo extends ConstantPoolEntry {
     }
 
     @Override
-    public void write(DataOutputStream dos) throws IOException {
+    protected void write(DataOutputStream dos) throws IOException {
 
         dos.writeByte(12); // Write tag (always 12 for CONSTANT_NameAndType_info)
         dos.writeShort(this.name.index()); // Write name_index

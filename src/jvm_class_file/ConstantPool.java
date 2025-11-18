@@ -1,6 +1,4 @@
-package class_file_creator.constant_pool;
-
-import class_file_creator.JvmClassFile;
+package jvm_class_file;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +15,7 @@ public class ConstantPool {
     private final Map<String, ConstantUtf8Info> constantUtf8InfoMap = new HashMap<>();
     private final Map<Integer, ConstantNameAndTypeInfo> constantNameAndTypeInfoMap = new HashMap<>();
 
-    public ConstantPool(JvmClassFile jvmClassFile) {
+    protected ConstantPool(JvmClassFile jvmClassFile) {
         this.jvmClassFile = jvmClassFile;
     }
 

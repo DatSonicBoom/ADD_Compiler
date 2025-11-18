@@ -12,29 +12,33 @@ public class ConstantPool {
 
     private final SortedSet<ConstantPoolEntry> allConstantPoolEntries = new TreeSet<>();
 
-    private final Map<String, ConstantUtf8Info> constantUtf8InfoMap = new HashMap<>();
+    private final Map<Short, ConstantClass> constantClassMap = new HashMap<>();
     private final Map<Integer, ConstantNameAndTypeInfo> constantNameAndTypeInfoMap = new HashMap<>();
+    private final Map<String, ConstantUtf8Info> constantUtf8InfoMap = new HashMap<>();
 
     protected ConstantPool(JvmClassFile jvmClassFile) {
         this.jvmClassFile = jvmClassFile;
     }
 
-    public ConstantUtf8Info constantUtf8Info(String string) throws IllegalArgumentException {
+    public ConstantClass constantClass(ConstantUtf8Info name) throws IllegalArgumentException {
 
-        if (string == null)
-            throw new IllegalArgumentException("string cannot be null");
+        if (name == null)
+            throw new IllegalArgumentException("name cannot be null");
 
-        ConstantUtf8Info constantUtf8Info = this.constantUtf8InfoMap.get(string);
+        if (name.jvmClassFile != this.jvmClassFile)
+            throw new IllegalArgumentException(JvmClassFile.DIFFERENT_FILE_ERROR);
 
-        if (constantUtf8Info != null)
-            return constantUtf8Info;
+        ConstantClass constantClass = this.constantClassMap.get(name.index);
 
-        constantUtf8Info = new ConstantUtf8Info(this.jvmClassFile, this.currentIndex++, string);
-        this.constantUtf8InfoMap.put(string, constantUtf8Info);
+        if (constantClass != null)
+            return constantClass;
 
-        this.allConstantPoolEntries.add(constantUtf8Info);
+        constantClass = new ConstantClass(this.jvmClassFile, this.currentIndex++, name);
+        this.constantClassMap.put(name.index, constantClass);
 
-        return constantUtf8Info;
+        this.allConstantPoolEntries.add(constantClass);
+
+        return constantClass;
     }
 
     public ConstantNameAndTypeInfo constantNameAndTypeInfo(
@@ -63,5 +67,23 @@ public class ConstantPool {
         this.allConstantPoolEntries.add(constantNameAndTypeInfo);
 
         return constantNameAndTypeInfo;
+    }
+
+    public ConstantUtf8Info constantUtf8Info(String string) throws IllegalArgumentException {
+
+        if (string == null)
+            throw new IllegalArgumentException("string cannot be null");
+
+        ConstantUtf8Info constantUtf8Info = this.constantUtf8InfoMap.get(string);
+
+        if (constantUtf8Info != null)
+            return constantUtf8Info;
+
+        constantUtf8Info = new ConstantUtf8Info(this.jvmClassFile, this.currentIndex++, string);
+        this.constantUtf8InfoMap.put(string, constantUtf8Info);
+
+        this.allConstantPoolEntries.add(constantUtf8Info);
+
+        return constantUtf8Info;
     }
 }

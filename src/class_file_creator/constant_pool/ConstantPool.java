@@ -15,12 +15,16 @@ public class ConstantPool {
     private final SortedSet<ConstantPoolEntry> allConstantPoolEntries = new TreeSet<>();
 
     private final Map<String, ConstantUtf8Info> constantUtf8InfoMap = new HashMap<>();
+    private final Map<Integer, ConstantNameAndTypeInfo> constantNameAndTypeInfoMap = new HashMap<>();
 
     public ConstantPool(JvmClassFile jvmClassFile) {
         this.jvmClassFile = jvmClassFile;
     }
 
-    public ConstantUtf8Info constantUtf8Info(String string) {
+    public ConstantUtf8Info constantUtf8Info(String string) throws IllegalArgumentException {
+
+        if (string == null)
+            throw new IllegalArgumentException("string cannot be null");
 
         ConstantUtf8Info constantUtf8Info = this.constantUtf8InfoMap.get(string);
 
@@ -33,5 +37,33 @@ public class ConstantPool {
         this.allConstantPoolEntries.add(constantUtf8Info);
 
         return constantUtf8Info;
+    }
+
+    public ConstantNameAndTypeInfo constantNameAndTypeInfo(
+            ConstantUtf8Info name, ConstantUtf8Info descriptor
+    ) throws IllegalArgumentException {
+
+        if (name == null)
+            throw new IllegalArgumentException("name cannot be null");
+
+        if (descriptor == null)
+            throw new IllegalArgumentException("descriptor cannot be null");
+
+        if ((name.jvmClassFile != this.jvmClassFile) || (descriptor.jvmClassFile != this.jvmClassFile))
+            throw new IllegalArgumentException(JvmClassFile.DIFFERENT_FILE_ERROR);
+
+        final int key = (name.index << 2) | descriptor.index;
+
+        ConstantNameAndTypeInfo constantNameAndTypeInfo = this.constantNameAndTypeInfoMap.get(key);
+
+        if (constantNameAndTypeInfo != null)
+            return constantNameAndTypeInfo;
+
+        constantNameAndTypeInfo = new ConstantNameAndTypeInfo(this.jvmClassFile, this.currentIndex++, name, descriptor);
+        this.constantNameAndTypeInfoMap.put(key, constantNameAndTypeInfo);
+
+        this.allConstantPoolEntries.add(constantNameAndTypeInfo);
+
+        return constantNameAndTypeInfo;
     }
 }

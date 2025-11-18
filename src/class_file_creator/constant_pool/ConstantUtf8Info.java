@@ -24,4 +24,18 @@ public class ConstantUtf8Info extends ConstantPoolEntry {
         dos.writeByte(1); // Write tag (always 1 for Constant_Utf-8_info)
         dos.writeUTF(this.string); // Write length and bytes
     }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o instanceof ConstantUtf8Info c) {
+
+            if (this.jvmClassFile != c.jvmClassFile)
+                return false;
+
+            return this.string.equals(c.string);
+        }
+
+        return false;
+    }
 }

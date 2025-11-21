@@ -10,6 +10,7 @@ public class ConstantClassInfo extends ConstantPoolEntry {
     protected ConstantClassInfo(
             JvmClassFile jvmClassFile, short index, ConstantUtf8Info name
     ) throws IllegalArgumentException {
+
         super(jvmClassFile, index);
 
         if (name == null)

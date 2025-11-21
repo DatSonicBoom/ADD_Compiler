@@ -11,6 +11,7 @@ public class ConstantNameAndTypeInfo extends ConstantPoolEntry {
     protected ConstantNameAndTypeInfo(
             JvmClassFile jvmClassFile, short index, ConstantUtf8Info name, ConstantUtf8Info descriptor
     ) throws IllegalArgumentException {
+
         super(jvmClassFile, index);
 
         if (name == null)
@@ -19,7 +20,7 @@ public class ConstantNameAndTypeInfo extends ConstantPoolEntry {
         if (descriptor == null)
             throw new IllegalArgumentException("descriptor cannot be null");
 
-        if (name.jvmClassFile != this.jvmClassFile || descriptor.jvmClassFile != this.jvmClassFile)
+        if ((name.jvmClassFile != this.jvmClassFile) || (descriptor.jvmClassFile != this.jvmClassFile))
             throw new IllegalArgumentException(JvmClassFile.DIFFERENT_FILE_ERROR);
 
         this.name = name;

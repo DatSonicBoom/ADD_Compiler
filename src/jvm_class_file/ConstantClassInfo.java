@@ -3,11 +3,11 @@ package jvm_class_file;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ConstantClass extends ConstantPoolEntry {
+public class ConstantClassInfo extends ConstantPoolEntry {
 
     private final ConstantUtf8Info name;
 
-    protected ConstantClass(
+    protected ConstantClassInfo(
             JvmClassFile jvmClassFile, short index, ConstantUtf8Info name
     ) throws IllegalArgumentException {
         super(jvmClassFile, index);

@@ -12,7 +12,7 @@ public class ConstantPool {
 
     private final SortedSet<ConstantPoolEntry> allConstantPoolEntries = new TreeSet<>();
 
-    private final Map<Short, ConstantClass> constantClassMap = new HashMap<>();
+    private final Map<Short, ConstantClassInfo> constantClassMap = new HashMap<>();
     private final Map<Integer, ConstantNameAndTypeInfo> constantNameAndTypeInfoMap = new HashMap<>();
     private final Map<String, ConstantUtf8Info> constantUtf8InfoMap = new HashMap<>();
 
@@ -20,7 +20,7 @@ public class ConstantPool {
         this.jvmClassFile = jvmClassFile;
     }
 
-    public ConstantClass constantClass(ConstantUtf8Info name) throws IllegalArgumentException {
+    public ConstantClassInfo constantClass(ConstantUtf8Info name) throws IllegalArgumentException {
 
         if (name == null)
             throw new IllegalArgumentException("name cannot be null");
@@ -28,17 +28,17 @@ public class ConstantPool {
         if (name.jvmClassFile != this.jvmClassFile)
             throw new IllegalArgumentException(JvmClassFile.DIFFERENT_FILE_ERROR);
 
-        ConstantClass constantClass = this.constantClassMap.get(name.index);
+        ConstantClassInfo constantClassInfo = this.constantClassMap.get(name.index);
 
-        if (constantClass != null)
-            return constantClass;
+        if (constantClassInfo != null)
+            return constantClassInfo;
 
-        constantClass = new ConstantClass(this.jvmClassFile, this.currentIndex++, name);
-        this.constantClassMap.put(name.index, constantClass);
+        constantClassInfo = new ConstantClassInfo(this.jvmClassFile, this.currentIndex++, name);
+        this.constantClassMap.put(name.index, constantClassInfo);
 
-        this.allConstantPoolEntries.add(constantClass);
+        this.allConstantPoolEntries.add(constantClassInfo);
 
-        return constantClass;
+        return constantClassInfo;
     }
 
     public ConstantNameAndTypeInfo constantNameAndTypeInfo(

@@ -17,10 +17,6 @@ public abstract class ConstantPoolEntry implements Comparable<ConstantPoolEntry>
         this.index = index;
     }
 
-    public short index() {
-        return this.index;
-    }
-
     @Override
     public int compareTo(ConstantPoolEntry c) {
         return this.index - c.index;

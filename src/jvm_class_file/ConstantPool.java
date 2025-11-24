@@ -14,6 +14,7 @@ public class ConstantPool {
 
     private final Map<Short, ConstantClassInfo> constantClassMap = new HashMap<>();
     private final Map<Integer, ConstantFieldRefInfo> constantFieldRefInfoMap = new HashMap<>();
+    private final Map<Integer, ConstantMethodRefInfo> constantMethodRefInfoMap = new HashMap<>();
     private final Map<Integer, ConstantNameAndTypeInfo> constantNameAndTypeInfoMap = new HashMap<>();
     private final Map<String, ConstantUtf8Info> constantUtf8InfoMap = new HashMap<>();
 
@@ -68,6 +69,34 @@ public class ConstantPool {
         this.allConstantPoolEntries.add(constantFieldRefInfo);
 
         return constantFieldRefInfo;
+    }
+
+    public ConstantMethodRefInfo constantMethodRefInfo(
+            ConstantClassInfo classInfo, ConstantNameAndTypeInfo nameAndType
+    ) throws IllegalArgumentException {
+
+        if (classInfo == null)
+            throw new IllegalArgumentException("classInfo cannot be null");
+
+        if (nameAndType == null)
+            throw new IllegalArgumentException("nameAndType cannot be null");
+
+        if ((classInfo.jvmClassFile != this.jvmClassFile) || (nameAndType.jvmClassFile != this.jvmClassFile))
+            throw new IllegalArgumentException(JvmClassFile.DIFFERENT_FILE_ERROR);
+
+        final int key = (classInfo.index << 2) | nameAndType.index;
+
+        ConstantMethodRefInfo constantMethodRefInfo = this.constantMethodRefInfoMap.get(key);
+
+        if (constantMethodRefInfo != null)
+            return constantMethodRefInfo;
+
+        constantMethodRefInfo = new ConstantMethodRefInfo(this.jvmClassFile, this.currentIndex++, classInfo, nameAndType);
+        this.constantMethodRefInfoMap.put(key, constantMethodRefInfo);
+
+        this.allConstantPoolEntries.add(constantMethodRefInfo);
+
+        return constantMethodRefInfo;
     }
 
     public ConstantNameAndTypeInfo constantNameAndTypeInfo(

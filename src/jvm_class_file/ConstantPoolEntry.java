@@ -3,7 +3,7 @@ package jvm_class_file;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public abstract class ConstantPoolEntry implements Comparable<ConstantPoolEntry> {
+public abstract class ConstantPoolEntry {
 
     protected final JvmClassFile jvmClassFile;
     protected final short index;
@@ -15,11 +15,6 @@ public abstract class ConstantPoolEntry implements Comparable<ConstantPoolEntry>
 
         this.jvmClassFile = jvmClassFile;
         this.index = index;
-    }
-
-    @Override
-    public int compareTo(ConstantPoolEntry c) {
-        return this.index - c.index;
     }
 
     protected abstract void write(DataOutputStream dos) throws IOException;

@@ -10,7 +10,8 @@ public class ConstantPool {
     private final JvmClassFile jvmClassFile;
     private short currentIndex = 1;
 
-    private final SortedSet<ConstantPoolEntry> allConstantPoolEntries = new TreeSet<>();
+    private final SortedSet<ConstantPoolEntry> allConstantPoolEntries
+            = new TreeSet<>((x, y) -> x.index - y.index);
 
     private final Map<Short, ConstantClassInfo> constantClassMap = new HashMap<>();
     private final Map<Integer, ConstantFieldRefInfo> constantFieldRefInfoMap = new HashMap<>();

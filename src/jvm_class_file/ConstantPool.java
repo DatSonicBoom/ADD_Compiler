@@ -18,6 +18,7 @@ public class ConstantPool {
     private final Map<Integer, ConstantInterfaceMethodRefInfo> constantInterfaceMethodRefInfoMap = new HashMap<>();
     private final Map<Integer, ConstantMethodRefInfo> constantMethodRefInfoMap = new HashMap<>();
     private final Map<Integer, ConstantNameAndTypeInfo> constantNameAndTypeInfoMap = new HashMap<>();
+    private final Map<Short, ConstantStringInfo> constantStringInfoMap = new HashMap<>();
     private final Map<String, ConstantUtf8Info> constantUtf8InfoMap = new HashMap<>();
 
     protected ConstantPool(JvmClassFile jvmClassFile) {
@@ -156,6 +157,27 @@ public class ConstantPool {
         this.allConstantPoolEntries.add(constantNameAndTypeInfo);
 
         return constantNameAndTypeInfo;
+    }
+
+    public ConstantStringInfo constantStringInfo(ConstantUtf8Info utf8) throws IllegalArgumentException {
+
+        if (utf8 == null)
+            throw new IllegalArgumentException("utf8 cannot be null");
+
+        if (utf8.jvmClassFile != this.jvmClassFile)
+            throw new IllegalArgumentException(JvmClassFile.DIFFERENT_FILE_ERROR);
+
+        ConstantStringInfo constantStringInfo = this.constantStringInfoMap.get(utf8.index);
+
+        if (constantStringInfo != null)
+            return constantStringInfo;
+
+        constantStringInfo = new ConstantStringInfo(this.jvmClassFile, this.currentIndex++, utf8);
+        this.constantStringInfoMap.put(utf8.index, constantStringInfo);
+
+        this.allConstantPoolEntries.add(constantStringInfo);
+
+        return constantStringInfo;
     }
 
     public ConstantUtf8Info constantUtf8Info(String string) throws IllegalArgumentException {

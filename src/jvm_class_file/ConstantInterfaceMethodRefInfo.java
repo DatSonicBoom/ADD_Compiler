@@ -1,0 +1,37 @@
+package jvm_class_file;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+public class ConstantInterfaceMethodRefInfo extends ConstantPoolEntry {
+
+    private final ConstantClassInfo classInfo;
+    private final ConstantNameAndTypeInfo nameAndType;
+
+    protected ConstantInterfaceMethodRefInfo(
+            JvmClassFile jvmClassFile, short index, ConstantClassInfo classInfo, ConstantNameAndTypeInfo nameAndType
+    ) throws IllegalArgumentException {
+
+        super(jvmClassFile, index);
+
+        if (classInfo == null)
+            throw new IllegalArgumentException("classInfo cannot be null");
+
+        if (nameAndType == null)
+            throw new IllegalArgumentException("nameAndType cannot be null");
+
+        if ((classInfo.jvmClassFile != this.jvmClassFile) || (nameAndType.jvmClassFile != this.jvmClassFile))
+            throw new IllegalArgumentException(JvmClassFile.DIFFERENT_FILE_ERROR);
+
+        this.classInfo = classInfo;
+        this.nameAndType = nameAndType;
+    }
+
+    @Override
+    protected void write(DataOutputStream dos) throws IOException {
+
+        dos.writeByte(11); // Write tag (always 11 for CONSTANT_InterfaceMethodRef_info)
+        dos.writeShort(this.classInfo.index); // Write class_index
+        dos.writeShort(this.nameAndType.index); // Write name_and_type_index
+    }
+}

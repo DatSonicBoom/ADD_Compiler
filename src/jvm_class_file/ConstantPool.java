@@ -15,6 +15,7 @@ public class ConstantPool {
 
     private final Map<Short, ConstantClassInfo> constantClassMap = new HashMap<>();
     private final Map<Integer, ConstantFieldRefInfo> constantFieldRefInfoMap = new HashMap<>();
+    private final Map<Integer, ConstantInterfaceMethodRefInfo> constantInterfaceMethodRefInfoMap = new HashMap<>();
     private final Map<Integer, ConstantMethodRefInfo> constantMethodRefInfoMap = new HashMap<>();
     private final Map<Integer, ConstantNameAndTypeInfo> constantNameAndTypeInfoMap = new HashMap<>();
     private final Map<String, ConstantUtf8Info> constantUtf8InfoMap = new HashMap<>();
@@ -70,6 +71,35 @@ public class ConstantPool {
         this.allConstantPoolEntries.add(constantFieldRefInfo);
 
         return constantFieldRefInfo;
+    }
+
+    public ConstantInterfaceMethodRefInfo constantInterfaceMethodRefInfo(
+            ConstantClassInfo classInfo, ConstantNameAndTypeInfo nameAndType
+    ) throws IllegalArgumentException {
+
+        if (classInfo == null)
+            throw new IllegalArgumentException("classInfo cannot be null");
+
+        if (nameAndType == null)
+            throw new IllegalArgumentException("nameAndType cannot be null");
+
+        if ((classInfo.jvmClassFile != this.jvmClassFile) || (nameAndType.jvmClassFile != this.jvmClassFile))
+            throw new IllegalArgumentException(JvmClassFile.DIFFERENT_FILE_ERROR);
+
+        final int key = (classInfo.index << 2) | nameAndType.index;
+
+        ConstantInterfaceMethodRefInfo constantInterfaceMethodRefInfo = this.constantInterfaceMethodRefInfoMap.get(key);
+
+        if (constantInterfaceMethodRefInfo != null)
+            return constantInterfaceMethodRefInfo;
+
+        constantInterfaceMethodRefInfo =
+                new ConstantInterfaceMethodRefInfo(this.jvmClassFile, this.currentIndex++, classInfo, nameAndType);
+        this.constantInterfaceMethodRefInfoMap.put(key, constantInterfaceMethodRefInfo);
+
+        this.allConstantPoolEntries.add(constantInterfaceMethodRefInfo);
+
+        return constantInterfaceMethodRefInfo;
     }
 
     public ConstantMethodRefInfo constantMethodRefInfo(

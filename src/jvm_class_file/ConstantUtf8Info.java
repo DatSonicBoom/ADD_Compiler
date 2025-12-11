@@ -20,7 +20,7 @@ public class ConstantUtf8Info extends ConstantPoolEntry {
     @Override
     protected void write(DataOutputStream dos) throws IOException {
 
-        dos.writeByte(1); // Write tag (always 1 for Constant_Utf-8_info)
+        dos.writeByte(1); // Write tag (always 1 for CONSTANT_Utf8_info)
         dos.writeUTF(this.string); // Write length and bytes
     }
 }

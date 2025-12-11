@@ -15,6 +15,7 @@ public class ConstantPool {
 
     private final Map<Short, ConstantClassInfo> constantClassMap = new HashMap<>();
     private final Map<Integer, ConstantFieldRefInfo> constantFieldRefInfoMap = new HashMap<>();
+    private final Map<Integer, ConstantIntegerInfo> constantIntegerInfoMap = new HashMap<>();
     private final Map<Integer, ConstantInterfaceMethodRefInfo> constantInterfaceMethodRefInfoMap = new HashMap<>();
     private final Map<Integer, ConstantMethodRefInfo> constantMethodRefInfoMap = new HashMap<>();
     private final Map<Integer, ConstantNameAndTypeInfo> constantNameAndTypeInfoMap = new HashMap<>();
@@ -72,6 +73,21 @@ public class ConstantPool {
         this.allConstantPoolEntries.add(constantFieldRefInfo);
 
         return constantFieldRefInfo;
+    }
+
+    public ConstantIntegerInfo constantIntegerInfo(int integer) {
+
+        ConstantIntegerInfo constantIntegerInfo = this.constantIntegerInfoMap.get(integer);
+
+        if (constantIntegerInfo != null)
+            return constantIntegerInfo;
+
+        constantIntegerInfo = new ConstantIntegerInfo(this.jvmClassFile, this.currentIndex++, integer);
+        this.constantIntegerInfoMap.put(integer, constantIntegerInfo);
+
+        this.allConstantPoolEntries.add(constantIntegerInfo);
+
+        return constantIntegerInfo;
     }
 
     public ConstantInterfaceMethodRefInfo constantInterfaceMethodRefInfo(

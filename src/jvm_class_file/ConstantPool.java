@@ -18,6 +18,7 @@ public class ConstantPool {
     private final Map<Float, ConstantFloatInfo> constantFloatInfoMap = new HashMap<>();
     private final Map<Integer, ConstantIntegerInfo> constantIntegerInfoMap = new HashMap<>();
     private final Map<Integer, ConstantInterfaceMethodRefInfo> constantInterfaceMethodRefInfoMap = new HashMap<>();
+    private final Map<Long, ConstantLongInfo> constantLongInfoMap = new HashMap<>();
     private final Map<Integer, ConstantMethodRefInfo> constantMethodRefInfoMap = new HashMap<>();
     private final Map<Integer, ConstantNameAndTypeInfo> constantNameAndTypeInfoMap = new HashMap<>();
     private final Map<Short, ConstantStringInfo> constantStringInfoMap = new HashMap<>();
@@ -135,6 +136,21 @@ public class ConstantPool {
         return constantInterfaceMethodRefInfo;
     }
 
+    public ConstantLongInfo constantLongInfo(long longValue) {
+
+        ConstantLongInfo constantLongInfo = this.constantLongInfoMap.get(longValue);
+
+        if (constantLongInfo != null)
+            return constantLongInfo;
+
+        constantLongInfo = new ConstantLongInfo(this.jvmClassFile, this.currentIndex++, longValue);
+        this.constantLongInfoMap.put(longValue, constantLongInfo);
+
+        this.allConstantPoolEntries.add(constantLongInfo);
+
+        return constantLongInfo;
+    }
+
     public ConstantMethodRefInfo constantMethodRefInfo(
             ConstantClassInfo classInfo, ConstantNameAndTypeInfo nameAndType
     ) throws IllegalArgumentException {
@@ -155,7 +171,8 @@ public class ConstantPool {
         if (constantMethodRefInfo != null)
             return constantMethodRefInfo;
 
-        constantMethodRefInfo = new ConstantMethodRefInfo(this.jvmClassFile, this.currentIndex++, classInfo, nameAndType);
+        constantMethodRefInfo =
+                new ConstantMethodRefInfo(this.jvmClassFile, this.currentIndex++, classInfo, nameAndType);
         this.constantMethodRefInfoMap.put(key, constantMethodRefInfo);
 
         this.allConstantPoolEntries.add(constantMethodRefInfo);

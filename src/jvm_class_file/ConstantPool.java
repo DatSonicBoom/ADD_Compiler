@@ -14,6 +14,7 @@ public class ConstantPool {
             = new TreeSet<>((x, y) -> x.index - y.index);
 
     private final Map<Short, ConstantClassInfo> constantClassMap = new HashMap<>();
+    private final Map<Double, ConstantDoubleInfo> constantDoubleInfoMap = new HashMap<>();
     private final Map<Integer, ConstantFieldRefInfo> constantFieldRefInfoMap = new HashMap<>();
     private final Map<Float, ConstantFloatInfo> constantFloatInfoMap = new HashMap<>();
     private final Map<Integer, ConstantIntegerInfo> constantIntegerInfoMap = new HashMap<>();
@@ -47,6 +48,21 @@ public class ConstantPool {
         this.allConstantPoolEntries.add(constantClassInfo);
 
         return constantClassInfo;
+    }
+
+    public ConstantDoubleInfo constantDoubleInfo(double doubleValue) {
+
+        ConstantDoubleInfo constantDoubleInfo = this.constantDoubleInfoMap.get(doubleValue);
+
+        if (constantDoubleInfo != null)
+            return constantDoubleInfo;
+
+        constantDoubleInfo = new ConstantDoubleInfo(this.jvmClassFile, this.currentIndex++, doubleValue);
+        this.constantDoubleInfoMap.put(doubleValue, constantDoubleInfo);
+
+        this.allConstantPoolEntries.add(constantDoubleInfo);
+
+        return constantDoubleInfo;
     }
 
     public ConstantFieldRefInfo constantFieldRefInfo(
